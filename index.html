@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142f38">
+  <meta name="description" content="按课程和创作任务查找、预览与复制教学提示词。">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./public/app-icon.png">
+  <title>课程提示词库</title>
+  <link rel="stylesheet" href="./src/styles.css">
+  <script type="module" src="./src/main.js"></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="课程提示词库首页"><span class="brand-mark">✳</span><span>课程提示词库<small>CLASSROOM PROMPT LIBRARY</small></span></a>
+      <div class="top-actions"><span id="visitor-name" class="visitor-name"></span><button id="change-name" class="text-button" type="button" hidden>更换姓名</button><a class="admin-link" href="./admin.html">教师管理 <span aria-hidden="true">↗</span></a></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy"><p class="eyebrow">把创作方法变成随时可取的工具</p><h1>找到合适的提示词，<br><em>开始你的下一步创作。</em></h1><p class="hero-desc">按课程与任务查找，先看效果，再复制模板。把【方括号】里的内容换成自己的作品资料。</p><div class="hero-stats"><span><strong id="entry-count">—</strong> 个可用模板</span><span class="stat-line"></span><span><strong id="course-count">—</strong> 门课程</span></div></div>
+        <div class="hero-graphic" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="graphic-card graphic-card-back">构思<span>01</span></div><div class="graphic-card graphic-card-front">搜索 · 参考 · 复制<span>✳</span></div><div class="graphic-dot dot-a"></div><div class="graphic-dot dot-b"></div></div>
+      </section>
+
+      <section class="catalog-section" aria-labelledby="catalog-heading">
+        <div class="section-heading"><div><p class="eyebrow dark">EXPLORE THE LIBRARY</p><h2 id="catalog-heading">浏览提示词</h2></div><p>从课程进入，再按创作任务筛选。</p></div>
+        <div class="catalog-layout">
+          <aside class="filters" aria-label="筛选提示词"><div class="filter-heading"><span>筛选目录</span><span aria-hidden="true">✦</span></div><label for="course-select">课程</label><select id="course-select"><option value="">全部课程</option></select><div class="category-title">提示词类型</div><div id="category-list" class="category-list"></div><button id="clear-filters" class="clear-button" type="button">清除筛选</button></aside>
+          <div class="results"><div class="search-row"><label class="search-box"><span aria-hidden="true">⌕</span><span class="sr-only">搜索提示词</span><input id="search-input" type="search" placeholder="搜索角色、材质、展板……" autocomplete="off"></label><span id="result-count" class="result-count"></span></div><div id="card-grid" class="card-grid"></div><div id="empty-state" class="empty-state" hidden><span>✳</span><h3>没有找到相符的提示词</h3><p>换个关键词，或清除筛选后再试。</p></div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><span>课程提示词库 · 用真实作品练习创作</span><span>提示词为起点，作品仍需你的判断和修改。</span></footer>
+  </div>
+
+  <dialog id="name-dialog" class="name-dialog"><form id="name-form" method="dialog"><span class="dialog-kicker">欢迎使用</span><h2>先填写你的姓名</h2><p>填写真实姓名后进入课程提示词库。姓名只在当前浏览器会话中使用。</p><label for="student-name">学生姓名</label><input id="student-name" type="text" maxlength="30" autocomplete="name" placeholder="请输入姓名" required><div id="name-error" class="form-error" role="alert"></div><button class="primary-button" type="submit">进入提示词库 <span aria-hidden="true">→</span></button></form></dialog>
+
+  <dialog id="detail-dialog" class="detail-dialog"><div class="detail-shell"><button id="close-detail" class="close-detail" type="button" aria-label="关闭详情">×</button><div id="detail-content"></div></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
