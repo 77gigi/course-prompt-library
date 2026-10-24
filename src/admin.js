@@ -1,4 +1,4 @@
-import { createApi } from './api.js';
+import { createApi } from './api.js?v=20261024b';
 import { makeSeedRows } from './catalog.js';
 import { lockToken, unlockToken } from './teacher-vault.js';
 import { encryptImage, imageKey, protectedImageUrl } from './protected-images.js';
@@ -115,7 +115,7 @@ async function loadAll() {
   entries = result.entries;
   series = result.series;
   const courses = [...new Set(entries.map(item => item.course))].sort((a, b) => a.localeCompare(b, 'zh-CN'));
-  $('#rename-course-select').replaceChildren(...courses.map(course => new Option(course, course)));
+  $('#rename-course-select')?.replaceChildren(...courses.map(course => new Option(course, course)));
   $('#series-common').value = series.find(item => item.id === 'ip-boards')?.commonPrompt || '';
   renderList();
 }
@@ -166,7 +166,7 @@ $('#reset-vault').addEventListener('click', () => {
   message('已清除本机授权，请重新连接。');
 });
 
-$('#rename-course-form').addEventListener('submit', async event => {
+$('#rename-course-form')?.addEventListener('submit', async event => {
   event.preventDefault();
   const oldName = $('#rename-course-select').value;
   const newName = $('#rename-course-name').value.trim();
