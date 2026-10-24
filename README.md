@@ -14,7 +14,7 @@ Mac 双击 `启动本地预览.command`；如果系统询问，选择“打开�
 2. 将本文件夹（不要只上传 ZIP）建立为一个**公开**仓库并推送。仓库名可自定，例如 `course-prompt-library`。保持 `index.html` 在仓库根目录。
 3. 编辑 `src/config.js`，把 `repoOwner` 改为 GitHub 用户名，`repoName` 改为仓库名，`branch` 改为实际分支名（通常是 `main`），提交并推送。**不要把管理密钥填进文件。**
 4. 仓库的 **Settings → Pages → Build and deployment** 中选择 **Deploy from a branch**，选择 `main` 和 `/(root)`，保存。等待 GitHub 显示网址，再用手机打开该网址。
-5. 从另行交付的 `教师专属图片链接密钥_请勿上传.md` 复制学生链接和教师管理链接，把其中用户名、仓库名换成你的实际信息。**不要把这份密钥文件上传到公开仓库。**教师在管理链接首次打开时，还需输入只授权这个仓库的 GitHub 管理密钥。建议在 GitHub **Settings → Developer settings → Personal access tokens → Fine-grained tokens** 创建：只选这个仓库，Repository permissions 中 **Contents: Read and write**。管理密钥在当前浏览器标签会话中保存；退出登录或关闭标签后清除。不要发给学生，也不要放到截图或群聊里。
+5. 从另行交付的 `教师专属图片链接密钥_请勿上传.md` 复制学生链接和教师管理链接，把其中用户名、仓库名换成你的实际信息。**不要把这份密钥文件上传到公开仓库。**教师在管理链接首次打开时，还需输入只授权这个仓库的 GitHub 管理密钥，并设置自定密码。建议在 GitHub **Settings → Developer settings → Personal access tokens → Fine-grained tokens** 创建：只选这个仓库，Repository permissions 中 **Contents: Read and write**。首次连接时同时设置至少8位的本机解锁密码。管理密钥经密码加密后保存在本机浏览器；以后输入自定密码解锁。清除网站数据、换浏览器或管理密钥过期后需重新连接。不要发给学生，也不要放到截图或群聊里。
 
 GitHub Pages 发布后，链接通常形如 `https://用户名.github.io/仓库名/`。学生需使用带 `#imgkey=...` 的专属链接；普通公开链接可浏览提示词，但看不到案例图。应用内使用相对路径，直接放在仓库根目录即可。GitHub 在部分网络环境中的访问速度可能不稳定，正式给全班使用前请用学生的手机网络实测。
 
@@ -48,3 +48,4 @@ GitHub Pages 发布后，链接通常形如 `https://用户名.github.io/仓库�
 ## 技术说明
 
 原生 HTML/CSS/JavaScript，未使用需付费的依赖或构建服务。运行 `npm test` 可以做基础校验。代码采用 MIT 许可；用户提示词、原始作品和第三方案例图**不属于代码开源许可**，请看 `CONTENT-NOTICE.md`。
+

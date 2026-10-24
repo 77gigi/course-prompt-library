@@ -17,7 +17,7 @@
 
     <section id="unconfigured-panel" class="setup-panel" hidden><h2>还未连接内容仓库</h2><p>学生页面已经包含整理好的提示词。要在这里继续新增，请按使用说明创建免费内容仓库，再在 <code>src/config.js</code> 填入仓库名称。</p><p>案例图使用专属链接解锁；GitHub 管理密钥只在登录时填写，不写入网页文件。</p></section>
 
-    <section id="login-panel" class="login-panel" hidden><div><span class="dialog-kicker">仅教师可用</span><h2>登录管理页面</h2><p>填写只对本内容仓库有写入权限的管理密钥。关闭浏览器后需重新填写。</p></div><form id="login-form"><label>管理密钥<input id="login-token" type="password" autocomplete="off" required></label><button class="primary-button" type="submit">进入管理</button></form></section>
+    <section id="login-panel" class="login-panel" hidden><div><span class="dialog-kicker">仅教师可用</span><h2 id="login-heading">首次连接这台电脑</h2><p id="login-description">首次连接后，即可用自定密码解锁。</p><p>授权加密保存在本机浏览器；清除网站数据、换浏览器或授权到期后，需要重新连接。</p></div><form id="login-form"><div id="setup-fields"><label>GitHub 授权密钥<input id="login-token" type="password" autocomplete="off" required></label><label>再次输入自定密码<input id="password-confirm" type="password" autocomplete="new-password" minlength="8" required></label></div><label>自定密码<input id="login-password" type="password" autocomplete="new-password" minlength="8" required></label><button id="login-submit" class="primary-button" type="submit">连接并保存</button><button id="reset-vault" class="text-button" type="button" hidden>忘记密码／重新连接</button></form></section>
 
     <section id="workspace-panel" hidden>
       <div class="toolbar"><div><strong id="total-label">0 条提示词</strong><span>一条一条添加，也可以批量导入。</span></div><div class="toolbar-actions"><button id="new-button" class="secondary-button" type="button">＋ 新增提示词</button><label class="secondary-button upload-label">导入 JSON<input id="json-file" type="file" accept="application/json,.json" hidden></label><button id="export-button" class="secondary-button" type="button">导出备份</button></div></div>
@@ -38,3 +38,4 @@
   </main>
 </body>
 </html>
+

@@ -1,5 +1,6 @@
 import { createApi } from './api.js';
 import { makeSeedRows } from './catalog.js';
+import { lockToken, unlockToken } from './teacher-vault.js';
 import { encryptImage, imageKey, protectedImageUrl } from './protected-images.js';
 
 const $ = selector => document.querySelector(selector);
@@ -11,6 +12,20 @@ let currentSlug = '';
 let currentId = '';
 let imageObjectUrl = '';
 let previewRequest = 0;
+const VAULT_KEY = 'promptTeacherVaultV1';
+
+function showLogin() {
+  const hasVault = Boolean(localStorage.getItem(VAULT_KEY));
+  $('#login-panel').hidden = false;
+  $('#setup-fields').hidden = hasVault;
+  $('#login-token').required = !hasVault;
+  $('#password-confirm').required = !hasVault;
+  $('#login-password').autocomplete = hasVault ? 'current-password' : 'new-password';
+  $('#login-heading').textContent = hasVault ? '输入密码进入教师管理' : '首次连接这台电脑';
+  $('#login-description').textContent = hasVault ? '输入你在这台电脑上设置的密码。' : '填入 GitHub 授权密钥，并设置本机解锁密码。以后只需输入密码。';
+  $('#login-submit').textContent = hasVault ? '解锁教师管理' : '连接并保存';
+  $('#reset-vault').hidden = !hasVault;
+}
 
 function message(text, error = false) {
   const box = $('#admin-message');
@@ -105,7 +120,7 @@ async function loadAll() {
 
 async function openWorkspace() {
   const session = readSession();
-  if (!session?.accessToken) { $('#login-panel').hidden = false; return; }
+  if (!session?.accessToken) { showLogin(); return; }
   const token = await teacherToken();
   await api.verifyTeacher(token);
   $('#login-panel').hidden = true;
@@ -118,10 +133,14 @@ $('#login-form').addEventListener('submit', async event => {
   event.preventDefault();
   message('正在登录…');
   try {
-    const token = $('#login-token').value.trim();
+    const stored = localStorage.getItem(VAULT_KEY);
+    const password = $('#login-password').value;
+    if (!stored && password !== $('#password-confirm').value) throw new Error('两次输入的密码不一致');
+    const token = stored ? await unlockToken(JSON.parse(stored), password) : $('#login-token').value.trim();
     await api.verifyTeacher(token);
+    if (!stored) localStorage.setItem(VAULT_KEY, JSON.stringify(await lockToken(token, password)));
     saveSession(token);
-    $('#login-token').value = '';
+    $('#login-form').reset();
     await openWorkspace();
     message(imageKey() ? '已登录教师管理页面' : '已登录；当前链接没有案例图密钥，上传图片请用教师专属链接。', !imageKey());
   } catch (error) { message(error.message, true); }
@@ -131,8 +150,18 @@ $('#logout-button').addEventListener('click', () => {
   sessionStorage.removeItem('promptAdminSession');
   $('#workspace-panel').hidden = true;
   $('#logout-button').hidden = true;
-  $('#login-panel').hidden = false;
+  $('#login-form').reset();
+  showLogin();
   message('已退出教师管理');
+});
+
+$('#reset-vault').addEventListener('click', () => {
+  if (!confirm('清除本机保存的授权？之后需要重新填写 GitHub 授权密钥并设置密码。不会删除课程内容。')) return;
+  localStorage.removeItem(VAULT_KEY);
+  sessionStorage.removeItem('promptAdminSession');
+  $('#login-form').reset();
+  showLogin();
+  message('已清除本机授权，请重新连接。');
 });
 
 $('#admin-search').addEventListener('input', renderList);
@@ -231,4 +260,5 @@ $('#export-button').addEventListener('click', async () => {
 if (!api.configured) $('#unconfigured-panel').hidden = false;
 else openWorkspace().then(() => {
   if (!imageKey()) message('当前链接没有案例图密钥；文字可编辑，查看或上传图片请使用教师专属链接。', true);
-}).catch(error => { sessionStorage.removeItem('promptAdminSession'); $('#login-panel').hidden = false; message(error.message, true); });
+}).catch(error => { sessionStorage.removeItem('promptAdminSession'); showLogin(); message(error.message, true); });
+
