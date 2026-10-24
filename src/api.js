@@ -110,6 +110,20 @@ export function createApi(config, fetcher = globalThis.fetch) {
     return target;
   }
 
+  async function renameCourse(token, oldName, newName) {
+    newName = String(newName || '').trim();
+    if (!newName) throw new Error('请填写新的课程名称');
+    const file = await getFile(token, 'src/data/catalog.json');
+    const entries = JSON.parse(file.content);
+    const matches = entries.filter(item => item.course === oldName);
+    if (!matches.length) throw new Error('找不到这门课程，请刷新后重试');
+    if (newName === oldName) return matches.length;
+    if (entries.some(item => item.course === newName)) throw new Error('已有同名课程，请使用其他名称');
+    matches.forEach(item => { item.course = newName; });
+    await writeFile(token, 'src/data/catalog.json', encodeText(JSON.stringify(entries, null, 2) + '\n'), `课程改名：${oldName} → ${newName}`, file.sha);
+    return matches.length;
+  }
+
   async function upsertSeries(token, series) {
     const file = await getFile(token, 'src/data/ip-series.json');
     await writeFile(token, 'src/data/ip-series.json', encodeText(JSON.stringify(series, null, 2) + '\n'), '更新 IP 展板共用要求', file.sha);
@@ -123,5 +137,5 @@ export function createApi(config, fetcher = globalThis.fetch) {
     return `public/examples/${path}`;
   }
 
-  return { configured, verifyTeacher, listAll, upsertEntry, replaceEntries, archiveEntry, upsertSeries, uploadImage };
+  return { configured, verifyTeacher, listAll, upsertEntry, replaceEntries, archiveEntry, renameCourse, upsertSeries, uploadImage };
 }

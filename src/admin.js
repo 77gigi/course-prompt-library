@@ -114,6 +114,8 @@ async function loadAll() {
   const result = await api.listAll(token);
   entries = result.entries;
   series = result.series;
+  const courses = [...new Set(entries.map(item => item.course))].sort((a, b) => a.localeCompare(b, 'zh-CN'));
+  $('#rename-course-select').replaceChildren(...courses.map(course => new Option(course, course)));
   $('#series-common').value = series.find(item => item.id === 'ip-boards')?.commonPrompt || '';
   renderList();
 }
@@ -162,6 +164,27 @@ $('#reset-vault').addEventListener('click', () => {
   $('#login-form').reset();
   showLogin();
   message('已清除本机授权，请重新连接。');
+});
+
+$('#rename-course-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const oldName = $('#rename-course-select').value;
+  const newName = $('#rename-course-name').value.trim();
+  if (!newName || newName === oldName) { message('请填写不同的新课程名称', true); return; }
+  if (!confirm(`将“${oldName}”及其全部提示词改为“${newName}”？`)) return;
+  const button = $('#rename-course-submit');
+  button.disabled = true;
+  try {
+    const count = await api.renameCourse(await teacherToken(), oldName, newName);
+    await loadAll();
+    const selected = entries.find(item => item.slug === currentSlug);
+    if (selected) selectEntry(selected);
+    else if (field('course').value === oldName) field('course').value = newName;
+    $('#rename-course-name').value = '';
+    $('#rename-course-select').value = newName;
+    message(`课程已改名，已更新 ${count} 条提示词。学生页面等待发布后刷新可见。`);
+  } catch (error) { message(error.message, true); }
+  finally { button.disabled = false; }
 });
 
 $('#admin-search').addEventListener('input', renderList);
