@@ -1,11 +1,15 @@
-const CACHE_NAME = 'prompt-library-v3';
+const CACHE_NAME = 'prompt-library-v4';
 const CORE_FILES = [
   './index.html',
   './src/styles.css',
   './src/main.js',
+  './src/style-gallery.js',
   './src/catalog.js',
   './src/data/catalog.json',
   './src/data/ip-series.json',
+  './src/data/style-gallery.json',
+  './src/data/layout-gallery.json',
+  './src/data/color-gallery.json',
   './manifest.webmanifest',
   './public/app-icon.png',
 ];

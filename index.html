@@ -10,17 +10,18 @@
   <title>课程提示词库</title>
   <link rel="stylesheet" href="./src/styles.css">
   <script type="module" src="./src/main.js"></script>
+  <script type="module" src="./src/style-gallery.js"></script>
 </head>
 <body>
   <div class="page-shell">
     <header class="topbar">
       <a class="brand" href="./index.html" aria-label="课程提示词库首页"><span class="brand-mark">✳</span><span>课程提示词库<small>CLASSROOM PROMPT LIBRARY</small></span></a>
-      <div class="top-actions"><span id="visitor-name" class="visitor-name"></span><button id="change-name" class="text-button" type="button" hidden>更换姓名</button><a class="admin-link" href="./admin.html">教师管理 <span aria-hidden="true">↗</span></a></div>
+      <div class="top-actions"><span id="visitor-name" class="visitor-name"></span><button id="change-name" class="text-button" type="button" hidden>更换姓名</button><a class="gallery-nav" href="#visual-library">视觉画廊</a><a class="admin-link" href="./admin.html">教师管理 <span aria-hidden="true">↗</span></a></div>
     </header>
 
     <main>
       <section class="hero">
-        <div class="hero-copy"><p class="eyebrow">把创作方法变成随时可取的工具</p><h1>找到合适的提示词，<br><em>开始你的下一步创作。</em></h1><p class="hero-desc">按课程与任务查找，先看效果，再复制模板。把【方括号】里的内容换成自己的作品资料。</p><div class="hero-stats"><span><strong id="entry-count">—</strong> 个可用模板</span><span class="stat-line"></span><span><strong id="course-count">—</strong> 门课程</span></div></div>
+        <div class="hero-copy"><p class="eyebrow">把创作方法变成随时可取的工具</p><h1>找到合适的提示词，<br><em>开始你的下一步创作。</em></h1><p class="hero-desc">按课程与任务查找，先看效果，再复制模板。把【方括号】里的内容换成自己的作品资料。</p><a class="hero-gallery-link" href="#visual-library">浏览风格、图型与色彩画廊 <span aria-hidden="true">→</span></a><div class="hero-stats"><span><strong id="entry-count">—</strong> 个可用模板</span><span class="stat-line"></span><span><strong id="course-count">—</strong> 门课程</span></div></div>
         <div class="hero-graphic" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="graphic-card graphic-card-back">构思<span>01</span></div><div class="graphic-card graphic-card-front">搜索 · 参考 · 复制<span>✳</span></div><div class="graphic-dot dot-a"></div><div class="graphic-dot dot-b"></div></div>
       </section>
 
@@ -31,6 +32,15 @@
           <div class="results"><div class="search-row"><label class="search-box"><span aria-hidden="true">⌕</span><span class="sr-only">搜索提示词</span><input id="search-input" type="search" placeholder="搜索角色、材质、展板……" autocomplete="off"></label><span id="result-count" class="result-count"></span></div><div id="card-grid" class="card-grid"></div><div id="empty-state" class="empty-state" hidden><span>✳</span><h3>没有找到相符的提示词</h3><p>换个关键词，或清除筛选后再试。</p></div></div>
         </div>
       </section>
+
+      <section id="visual-library" class="style-section" aria-labelledby="visual-heading">
+        <div class="section-heading"><div><p class="eyebrow dark">VISUAL REFERENCE LIBRARY</p><h2 id="visual-heading">看图选风格、图型与色彩</h2></div><p>选好参考，再写自己的主题与内容。</p></div>
+        <p class="style-intro">按“风格 → 图型 → 色彩 → 提示词”完成一次视觉方案。卡片展示中文名称和编号；点击可看大图，并把需要的编号加入下方的提示词拼装器。示例图仅供学习视觉语言与排版方法，作品主题、角色和文案由你自己决定。</p>
+        <div class="visual-tabs" role="tablist" aria-label="视觉资料分类"><button class="visual-tab is-active" type="button" role="tab" aria-selected="true" data-tab="styles">风格画廊 <span>366</span></button><button class="visual-tab" type="button" role="tab" aria-selected="false" data-tab="layouts">图型画廊 <span>169</span></button><button class="visual-tab" type="button" role="tab" aria-selected="false" data-tab="colors">色彩画廊 <span>36</span></button><button class="visual-tab" type="button" role="tab" aria-selected="false" data-tab="prompts">提示词拼装器</button></div>
+        <div id="visual-gallery-panel" role="tabpanel"><div class="style-toolbar"><label class="search-box"><span aria-hidden="true">⌕</span><span class="sr-only">搜索画廊</span><input id="visual-search" type="search" placeholder="搜索编号、彩铅、水墨、角色卡……" autocomplete="off"></label><span id="visual-count" class="result-count" aria-live="polite"></span></div><div id="visual-filters" class="style-filters" aria-label="筛选分类"></div><div id="visual-grid" class="style-grid"></div><div class="style-more-wrap"><button id="visual-more" class="style-more" type="button" hidden>查看更多</button></div></div>
+        <div id="prompt-panel" class="prompt-panel" role="tabpanel" hidden><div class="prompt-builder"><div><h3>把选择组合成可修改的提示词</h3><p>先在上面的画廊里点选风格、图型和色彩，再填写自己的主题。生成后仍要检查角色设定、画面信息和文字是否准确。</p><div id="selected-visuals" class="selected-visuals"></div><label class="builder-label" for="prompt-kind">作品类型</label><select id="prompt-kind"><option>IP角色展板</option><option>插画</option><option>海报</option><option>信息图</option><option>漫画分镜</option><option>文创应用展示</option></select><label class="builder-label" for="prompt-theme">作品主题与具体内容</label><textarea id="prompt-theme" rows="4" placeholder="例如：以家乡傩戏为主题，设计一个原创角色，展示正面、侧面、背面与服饰细节。"></textarea><label class="builder-label" for="prompt-text">必须出现的文字（可选）</label><input id="prompt-text" type="text" placeholder="例如：角色名称、展板标题"><label class="builder-label" for="prompt-ratio">画幅比例</label><select id="prompt-ratio"><option value="">按内容决定</option><option>3:4 竖版</option><option>4:3 横版</option><option>1:1 方形</option><option>16:9 宽屏</option><option>A3 横版展板</option></select><label class="builder-label" for="prompt-mode">画面模式</label><select id="prompt-mode"><option value="image">纯图：主要生成画面</option><option value="graphic">图文：画面与文字共同排版</option></select><div class="builder-actions"><button id="build-prompt" class="primary-button" type="button">生成提示词</button><button id="copy-prompt" class="style-more" type="button">复制提示词</button></div></div><div class="prompt-result"><h4>生成的中文提示词</h4><pre id="prompt-output">请先填写作品主题，再点击“生成提示词”。</pre><p>可把结果复制到生图工具中，按实际作品继续修改。</p></div></div></div>
+        <p class="style-credit">资料来源：<a href="https://github.com/yang0/handraw-style" target="_blank" rel="noopener noreferrer">yang0 / handraw-style ↗</a>。本站沿用自己的课程排版，保留原编号、图片和许可说明。<a href="./STYLE-SOURCE.md" target="_blank" rel="noopener noreferrer">查看来源说明</a></p>
+      </section>
     </main>
 
     <footer class="footer"><span>课程提示词库 · 用真实作品练习创作</span><span>提示词为起点，作品仍需你的判断和修改。</span></footer>
@@ -39,6 +49,7 @@
   <dialog id="name-dialog" class="name-dialog"><form id="name-form" method="dialog"><span class="dialog-kicker">欢迎使用</span><h2>先填写你的姓名</h2><p>填写真实姓名后进入课程提示词库。姓名只在当前浏览器会话中使用。</p><label for="student-name">学生姓名</label><input id="student-name" type="text" maxlength="30" autocomplete="name" placeholder="请输入姓名" required><div id="name-error" class="form-error" role="alert"></div><button class="primary-button" type="submit">进入提示词库 <span aria-hidden="true">→</span></button></form></dialog>
 
   <dialog id="detail-dialog" class="detail-dialog"><div class="detail-shell"><button id="close-detail" class="close-detail" type="button" aria-label="关闭详情">×</button><div id="detail-content"></div></div></dialog>
+  <dialog id="visual-dialog" class="style-dialog"><div class="style-dialog-shell"><button id="close-visual" class="close-detail" type="button" aria-label="关闭详情">×</button><div id="visual-detail"></div></div></dialog>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

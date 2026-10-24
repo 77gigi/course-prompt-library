@@ -1,0 +1,5 @@
+
+# Gallery reference images are served by the source project
+/public/styles/**/*.webp
+/public/layouts/
+/public/colors/
